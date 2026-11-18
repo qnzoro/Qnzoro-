@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QNZORO | Men's Fashion</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--gold:#c9a45c;--ink:#171717;--paper:#f6f5f2}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,"Noto Sans Bengali",sans-serif}button,input,select,textarea{font:inherit}header{position:sticky;top:0;background:white;padding:16px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ddd;z-index:3}.logo{font-size:25px;font-weight:900;letter-spacing:3px}.logo span,.gold{color:var(--gold)}nav{display:flex;gap:20px}nav a{color:#222;text-decoration:none}.cartbtn,.submit{background:#111;color:white;border:0;padding:12px 17px;cursor:pointer}.hero{min-height:390px;color:white;display:flex;align-items:center;background:linear-gradient(90deg,#000d,#0003),url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1800&q=85') center/cover}.hero div{max-width:1100px;margin:auto;width:90%}.hero h1{font-size:clamp(42px,8vw,76px);margin:12px 0}.hero p{max-width:480px;line-height:1.7}.goldbtn{display:inline-block;background:var(--gold);padding:13px 22px;color:#111;text-decoration:none;font-weight:bold}main{max-width:1100px;width:92%;margin:38px auto}.muted{color:#777;font-size:14px;line-height:1.6}.products{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.card,.panel{background:white;border:1px solid #e5e2dc}.card img,.placeholder{width:100%;height:240px;object-fit:cover;background:#e9e7e2}.placeholder{display:grid;place-items:center;color:#777}.info{padding:13px}.info h3{margin:0 0 8px;font-size:16px}.price{font-weight:bold}.info p{color:#777;font-size:13px;min-height:32px}.add{width:100%;background:#111;color:white;border:0;padding:11px}.panel{padding:22px;margin-top:25px}.cartrow{display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding:12px 0;gap:12px}.qty button{background:white;border:1px solid #ddd;padding:3px 9px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field input,.field select,.field textarea{padding:12px;border:1px solid #ddd;background:white}.field textarea{min-height:75px}.submit{width:100%;margin-top:15px}.notice{padding:12px;background:#faf6ed;border-left:3px solid var(--gold);font-size:13px;line-height:1.6;margin:14px 0}.status{font-size:13px;margin-top:12px}footer{text-align:center;background:#111;color:white;padding:32px;margin-top:45px}footer p{color:#aaa;font-size:13px}.empty{background:white;padding:28px;text-align:center;color:#777;grid-column:1/-1}
+@media(max-width:850px){.products{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){nav{display:none}.products{gap:9px}.card img,.placeholder{height:185px}.panel{padding:14px}.grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+</style></head>
+<body>
+<header><div class="logo">QN<span>Z</span>ORO</div><nav><a href="#shop">Shop</a><a href="#about">About</a><a href="#contact">Contact</a></nav><button class="cartbtn" onclick="document.querySelector('#cart').scrollIntoView({behavior:'smooth'})">CART (<span id="count">0</span>)</button></header>
+<section class="hero"><div><small class="gold">MEN'S FASHION COLLECTION</small><h1>STYLE THAT<br><span class="gold">SPEAKS.</span></h1><p>Premium style, comfortable fit and selected collections for men in Bangladesh.</p><a class="goldbtn" href="#shop">SHOP COLLECTION</a></div></section>
+<main>
+<section id="shop"><h2>নতুন কালেকশন</h2><p class="muted">পছন্দের পণ্য বেছে নিন এবং অর্ডার করুন।</p><div class="products" id="products"><div class="empty">পণ্য লোড হচ্ছে...</div></div></section>
+<section class="panel" id="cart"><h2>আপনার কার্ট</h2><div id="cartItems" class="muted">এখনো কোনো পণ্য যোগ করা হয়নি।</div><div class="cartrow"><b>সর্বমোট</b><b id="total">৳০</b></div></section>
+<section class="panel"><h2>অর্ডার তথ্য</h2><p class="muted">সঠিক তথ্য দিয়ে অর্ডার সম্পন্ন করুন।</p><form id="orderForm"><div class="grid">
+<div class="field"><label>আপনার নাম *</label><input id="customerName" required placeholder="নাম লিখুন"></div>
+<div class="field"><label>মোবাইল নম্বর *</label><input id="phone" required inputmode="tel" placeholder="01XXXXXXXXX"></div>
+<div class="field full"><label>সম্পূর্ণ ঠিকানা *</label><textarea id="address" required placeholder="বাসা/রোড, এলাকা, জেলা"></textarea></div>
+<div class="field"><label>সাইজ *</label><select id="size" required><option value="">সাইজ নির্বাচন</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>প্রযোজ্য নয়</option></select></div>
+<div class="field"><label>পেমেন্ট পদ্ধতি *</label><select id="payment" required onchange="paymentInfo()"><option value="">নির্বাচন করুন</option><option>bKash</option><option>Nagad</option><option>Cash on Delivery</option></select></div>
+<div class="field full" id="trxWrap" style="display:none"><label>Transaction ID</label><input id="trx" placeholder="পেমেন্ট করলে Transaction ID লিখুন"></div>
+</div><div class="notice" id="paymentNote">bKash: 01410419540 · Nagad: 01740195415<br>পেমেন্টের আগে অর্ডার নিশ্চিত করুন।</div><button class="submit">অর্ডার কনফার্ম করুন</button><div id="status" class="status" role="status"></div></form></section>
+<section class="panel" id="about"><h2>QNZORO সম্পর্কে</h2><p class="muted">QNZORO Official Online Clothing Store — Premium Men's Fashion in Bangladesh.</p></section>
+<section class="panel" id="contact"><h2>যোগাযোগ</h2><p class="muted">অর্ডার সংক্রান্ত সহায়তার জন্য QNZORO-এর সঙ্গে যোগাযোগ করুন।</p></section>
+</main><footer><div class="logo">QN<span>Z</span>ORO</div><p>Premium Men's Fashion · Bangladesh</p><p>© <span id="year"></span> QNZORO</p></footer>
+<script>
+const SUPABASE_URL="https://glhgcpubweufzvdutsod.supabase.co";
+const SUPABASE_KEY="sb_publishable_jQd6mOjoMny6YdKZY7rxYg_aL49fJxa";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let products=[],cart=[];
+const money=n=>"৳"+Number(n||0).toLocaleString("bn-BD");
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+async function loadProducts(){
+ const box=document.getElementById("products");
+ const {data,error}=await db.from("products").select("id,name,description,price,image_url,is_active").eq("is_active",true).order("id",{ascending:false});
+ if(error){box.innerHTML='<div class="empty">পণ্য লোড হয়নি। Supabase SQL setup করুন।<br>'+esc(error.message)+'</div>';return}
+ products=data||[];renderProducts();
+}
+function renderProducts(){
+ const box=document.getElementById("products");
+ if(!products.length){box.innerHTML='<div class="empty">এখনো পণ্য যোগ করা হয়নি। Supabase-এর products টেবিলে পণ্য যোগ করুন।</div>';return}
+ box.innerHTML=products.map(p=>`<article class="card">${p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}">`:'<div class="placeholder">QNZORO</div>'}<div class="info"><h3>${esc(p.name)}</h3><div class="price">${money(p.price)}</div><p>${esc(p.description||"QNZORO Collection")}</p><button class="add" onclick="addCart('${esc(p.id)}')">কার্টে যোগ করুন</button></div></article>`).join("");
+}
+function addCart(id){let p=products.find(x=>String(x.id)===String(id));if(!p)return;let f=cart.find(x=>String(x.id)===String(id));if(f)f.qty++;else cart.push({...p,qty:1});renderCart()}
+function qty(id,d){let x=cart.find(p=>String(p.id)===String(id));if(!x)return;x.qty+=d;if(x.qty<1)cart=cart.filter(p=>String(p.id)!==String(id));renderCart()}
+function renderCart(){let n=cart.reduce((s,x)=>s+x.qty,0),t=cart.reduce((s,x)=>s+Number(x.price)*x.qty,0);document.getElementById("count").textContent=n;document.getElementById("total").textContent=money(t);document.getElementById("cartItems").innerHTML=cart.length?cart.map(x=>`<div class="cartrow"><span>${esc(x.name)} × ${x.qty}<br>${money(x.price)} each</span><span class="qty"><button type="button" onclick="qty('${esc(x.id)}',-1)">−</button> ${x.qty} <button type="button" onclick="qty('${esc(x.id)}',1)">+</button></span></div>`).join(""):"এখনো কোনো পণ্য যোগ করা হয়নি।"}
+function paymentInfo(){let p=document.getElementById("payment").value;document.getElementById("trxWrap").style.display=["bKash","Nagad"].includes(p)?"flex":"none";document.getElementById("paymentNote").innerHTML=p==="bKash"?'bKash Personal: <b>01410419540</b><br>পেমেন্টের পর Transaction ID দিন।':p==="Nagad"?'Nagad Personal: <b>01740195415</b><br>পেমেন্টের পর Transaction ID দিন.':"bKash: 01410419540 · Nagad: 01740195415<br>Cash on Delivery হলে পণ্য হাতে পেয়ে মূল্য দিন।"}
+document.getElementById("orderForm").addEventListener("submit",async e=>{
+ e.preventDefault();let st=document.getElementById("status");if(!cart.length){st.textContent="প্রথমে কার্টে পণ্য যোগ করুন।";return}
+ let phone=document.getElementById("phone").value.trim();if(!/^01[3-9]\d{8}$/.test(phone)){st.textContent="সঠিক বাংলাদেশি মোবাইল নম্বর লিখুন।";return}
+ st.textContent="অর্ডার পাঠানো হচ্ছে...";
+ let total=cart.reduce((s,x)=>s+Number(x.price)*x.qty,0);
+ let payload={customer_name:document.getElementById("customerName").value.trim(),phone,address:document.getElementById("address").value.trim(),payment_method:document.getElementById("payment").value,transaction_id:document.getElementById("trx").value.trim()||null,total,status:"pending",size:document.getElementById("size").value};
+ let {data:order,error}=await db.from("orders").insert(payload).select("id").single();
+ if(error){st.textContent="অর্ডার জমা হয়নি: "+error.message+"। SQL setup/RLS policy পরীক্ষা করুন।";return}
+ let rows=cart.map(x=>({order_id:order.id,product_id:x.id,product_name:x.name,quantity:x.qty,unit_price:x.price,line_total:Number(x.price)*x.qty}));
+ let result=await db.from("order_items").insert(rows);
+ if(result.error){st.textContent="অর্ডার #"+order.id+" হয়েছে, কিন্তু item সংরক্ষণে সমস্যা: "+result.error.message;return}
+ st.textContent="অর্ডার গ্রহণ করা হয়েছে! অর্ডার নম্বর: "+order.id+". আমরা ফোনে যোগাযোগ করব।";cart=[];renderCart();e.target.reset();paymentInfo();
+});
+document.getElementById("year").textContent=new Date().getFullYear();renderCart();loadProducts();
+</script></body></html>
